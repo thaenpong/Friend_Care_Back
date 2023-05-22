@@ -23,6 +23,8 @@ class reqtaxi extends Model
         'username',
         'tell',
         'status',
-        
+        'driverid',
+        'drivername',
+        'datetime',
     ];
 }

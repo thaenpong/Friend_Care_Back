@@ -10,7 +10,7 @@ class reqtaxicontroller extends Controller
 {
     public function insertreq(Request $request)
     {
-        
+
 
         try {
             error_log($request);
@@ -28,8 +28,9 @@ class reqtaxicontroller extends Controller
                 'Userid' => 'required',
                 'username' => 'required',
                 'tell' => 'required',
+                'formattedDateTime' => 'required',
             ]);
-    
+
             $user = reqtaxi::create([
                 'p_lat' => $field['p_lat'],
                 'p_long' => $field['p_long'],
@@ -45,19 +46,24 @@ class reqtaxicontroller extends Controller
                 'username' => $field['username'],
                 'tell' => $field['tell'],
                 'status' => 1,
+                'datetime' => $field['formattedDateTime']
             ]);
             $response = [
                 'message' => 'success',
             ];
             return response($response, 201);
             $this->buildXMLHeader();
-          
-          } catch (Exception $e) {
-          
+        } catch (Exception $e) {
+            //error_log($e);
             $response = [
                 'message' => 'create faild',
             ];
             return response($response, 400);
-          }
+        }
+    }
+    public function list($id)
+    {
+        $list = reqtaxi::where(['Userid' => $id, 'status' => 1])->get();
+        return response($list, 201);
     }
 }

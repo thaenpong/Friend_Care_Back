@@ -30,6 +30,9 @@ return new class extends Migration
             $table->string('username');
             $table->string('tell');
             $table->integer('status');
+            $table->integer('driverid')->nullable();
+            $table->string('drivername')->nullable();
+            $table->string('datetime');
         });
     }
 
