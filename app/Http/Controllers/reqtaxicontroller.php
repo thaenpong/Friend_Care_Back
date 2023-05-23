@@ -10,10 +10,7 @@ class reqtaxicontroller extends Controller
 {
     public function insertreq(Request $request)
     {
-
-
         try {
-            error_log($request);
             $field = $request->validate([
                 'p_lat' => 'required',
                 'p_long' => 'required',
@@ -63,7 +60,30 @@ class reqtaxicontroller extends Controller
     }
     public function list($id)
     {
-        $list = reqtaxi::where(['Userid' => $id, 'status' => 1])->get();
+        $list = reqtaxi::where(['Userid' => $id])->get();
         return response($list, 201);
+    }
+
+    public function listdetail($id)
+    {
+        $list = reqtaxi::where(['id' => $id])->get();
+        error_log($list[0]['id']);
+        return response($list[0], 201);
+    }
+
+    public function cancle($id)
+    {
+        try {
+            $list = reqtaxi::where(['id' => $id])->update(['status' => 4]);
+            $response = [
+                'message' => 'success',
+            ];
+            return response($response, 201);
+        } catch (Exception $e) {
+            $response = [
+                'message' => 'faild',
+            ];
+            return response($response, 40);
+        }
     }
 }
